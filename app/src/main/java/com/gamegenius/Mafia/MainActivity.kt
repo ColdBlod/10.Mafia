@@ -1,26 +1,25 @@
 package com.gamegenius.Mafia
 
 import android.os.Bundle
+import android.print.PrintAttributes.Margins
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnKeyListener
-import android.view.animation.AnimationUtils
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.gamegenius.Mafia.ui.theme._10MafiaTheme
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
 
 class MainActivity : ComponentActivity() {
     private var players: MutableList<Int> = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+    private var players_name: MutableList<String> = mutableListOf("player 1", "player 2", "player 3", "player 4", "player 5", "player 6", "player 7", "player 8", "player 9", "player 10", "player 11", "player 12", "player 13", "player 14")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,5 +69,42 @@ class MainActivity : ComponentActivity() {
 
     fun inizializate_lst_players(){
         setContentView(R.layout.lst_of_players_start)
+        for (i in 1..this.players.size) {
+            val id = resources.getIdentifier("player_${i}_btn", "id", packageName)
+            val btn = findViewById<Button>(id)
+
+            btn.setOnClickListener(View.OnClickListener {make_keyboard()})
+        }
+    }
+
+    fun make_keyboard(){
+        val layout: LinearLayout = this.findViewById(R.id.main_layout_lst_players)
+
+        var tx:TextView = TextView(this)
+        tx.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, this.resources.displayMetrics).toInt(), 0f)
+        var params = tx.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = 50
+        params.rightMargin = 50
+        tx.layoutParams = params
+        tx.setBackgroundColor(getColor(R.color.white))
+        tx.text = ""
+
+        layout.addView(tx, 5)
+
+
+
+
+
+
+        tx = TextView(this)
+        tx.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, this.resources.displayMetrics).toInt(), 0f)
+        params = tx.layoutParams as ViewGroup.MarginLayoutParams
+        params.leftMargin = 50
+        params.rightMargin = 50
+        tx.layoutParams = params
+        tx.setBackgroundColor(getColor(R.color.white))
+        tx.text = ""
+
+        layout.addView(tx, 5)
     }
 }
