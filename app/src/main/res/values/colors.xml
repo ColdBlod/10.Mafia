@@ -6,9 +6,11 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
     <color name="lst_players_btn">#86323a</color>
+    <color name="background_keyboard_lst_players">#251919</color>
+    <color name="cancel_keyboard_lst_players">#5a1717</color>
     <color name="background">#261212</color>
     <color name="nothing"></color>
 </resources>
