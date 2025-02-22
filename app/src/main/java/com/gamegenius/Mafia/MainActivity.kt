@@ -80,7 +80,8 @@ class MainActivity : ComponentActivity() {
                 }else if (i != this.current_player_selected_players_lst){
                     var id = resources.getIdentifier("player_${this.current_player_selected_players_lst}_btn", "id", packageName)
                     var btn = findViewById<Button>(id)
-                    btn.setTextColor(getColor(R.color.lst_players_btn))
+                    if (this.players[this.current_player_selected_players_lst-1].num == -1) btn.setTextColor(getColor(R.color.lst_players_btn))
+                    else btn.setTextColor(getColor(R.color.white))
 
                     id = resources.getIdentifier("player_${i}_btn", "id", packageName)
                     btn = findViewById<Button>(id)
@@ -122,8 +123,6 @@ class MainActivity : ComponentActivity() {
             if (this.players.contains(get_player_by_number(number)) == false) {
                 if (this.players[this.current_player_selected_players_lst - 1].num != -1) {
                     val old_btn = this.players[this.current_player_selected_players_lst - 1].btn
-                    println((old_btn != null))
-                    println("was")
                     if (old_btn != null) {
                         old_btn.setTextColor(getColor(R.color.white))
                     }
@@ -138,7 +137,15 @@ class MainActivity : ComponentActivity() {
 
                 this.players[this.current_player_selected_players_lst - 1].num = number
                 this.players[this.current_player_selected_players_lst - 1].btn = itbtn
-                println(this.players[this.current_player_selected_players_lst - 1])
+
+                if (this.players.filter{it.num == -1}.isEmpty()) {
+                    val layout: LinearLayout = this.findViewById(R.id.main_layout_lst_players)
+                    layout.removeViewAt(5)
+                    layout.removeViewAt(5)
+                    layout.removeViewAt(5)
+                    btn.setTextColor(getColor(R.color.white))
+                    this.is_clicked_players_lst = false
+                }
             }
         }else{
             var old_btn = this.players[this.current_player_selected_players_lst-1].btn
@@ -342,5 +349,6 @@ class MainActivity : ComponentActivity() {
 
 
     fun inizializate_role_making(){
+
     }
 }
