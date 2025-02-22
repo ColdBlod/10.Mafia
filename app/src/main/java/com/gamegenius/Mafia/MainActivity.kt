@@ -1,21 +1,28 @@
 package com.gamegenius.Mafia
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.print.PrintAttributes.Margins
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.ALPHA
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.setPadding
+import kotlin.properties.Delegates
 
 class MainActivity : ComponentActivity() {
-    private var players: MutableList<Help_file> = mutableListOf<Help_file>(Help_file(-1, null),
-        Help_file(-1, null),
-        Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null))
+    private var players: MutableList<Int> = mutableListOf<Int>(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
     private var players_name: MutableList<String> = mutableListOf("player 1", "player 2", "player 3", "player 4", "player 5", "player 6", "player 7", "player 8", "player 9", "player 10", "player 11", "player 12", "player 13", "player 14")
     private var is_clicked_players_lst: Boolean = false
     private var  current_player_selected_players_lst: Int = -1
@@ -49,11 +56,13 @@ class MainActivity : ComponentActivity() {
         btn.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
             when (motionEvent.actionMasked){
                 MotionEvent.ACTION_DOWN -> {
-                    btn.setImageResource(R.drawable.start_touched_anim)
+                    val btn = findViewById<ImageButton>(R.id.start_game_inizial_btn)
+                    btn.setBackgroundResource(R.drawable.start_touched)
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    btn.setImageResource(R.drawable.start)
+                    val btn = findViewById<ImageButton>(R.id.start_game_inizial_btn)
+                    btn.setBackgroundResource(R.drawable.start)
                     if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
                         inizializate_lst_players()
                     }
@@ -91,68 +100,11 @@ class MainActivity : ComponentActivity() {
                 }
             })
         }
-        val btn_start = findViewById<ImageButton>(R.id.start_game_inizial_btn)
-        btn_start.setOnTouchListener(View.OnTouchListener {view, motionEvent ->
-            when (motionEvent.actionMasked){
-                MotionEvent.ACTION_DOWN -> {
-                    btn_start.setImageResource(R.drawable.start_touched_anim)
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    btn_start.setImageResource(R.drawable.start)
-                    if ((btn_start.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn_start.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                        inizializate_lst_players()
-                    }
-                    true
-                }
-                else -> {true}
-            }
-        })
     }
 
-    fun make_number_for_player(number:Int, itbtn:Button){
-        fun get_player_by_number(num:Int):Help_file{
-            for (i in 0..this.players.size-1){
-                if (num == this.players[i].num) return this.players[i]
-            }
-            return Help_file(num, null)
-        }
 
-        if (number != -1){
-            if (this.players.contains(get_player_by_number(number)) == false) {
-                if (this.players[this.current_player_selected_players_lst - 1].num != -1) {
-                    val old_btn = this.players[this.current_player_selected_players_lst - 1].btn
-                    println((old_btn != null))
-                    println("was")
-                    if (old_btn != null) {
-                        old_btn.setTextColor(getColor(R.color.white))
-                    }
-                }
-                var id = resources.getIdentifier(
-                    "player_${this.current_player_selected_players_lst}_btn",
-                    "id",
-                    packageName
-                )
-                var btn = findViewById<Button>(id)
-                btn.setText(number.toString().replace("-1", "X"))
+    fun make_number_for_player(number:Int){
 
-                this.players[this.current_player_selected_players_lst - 1].num = number
-                this.players[this.current_player_selected_players_lst - 1].btn = itbtn
-                println(this.players[this.current_player_selected_players_lst - 1])
-            }
-        }else{
-            var old_btn = this.players[this.current_player_selected_players_lst-1].btn
-            if (old_btn != null) {
-                old_btn.setTextColor(getColor(R.color.white))
-            }
-            old_btn = findViewById<Button>(resources.getIdentifier(
-                "player_${this.current_player_selected_players_lst}_btn",
-                "id",
-                packageName
-            ))
-            old_btn.setText("X")
-            this.players[this.current_player_selected_players_lst-1] = Help_file(-1, null)
-        }
     }
 
     fun make_keyboard(){
@@ -173,13 +125,17 @@ class MainActivity : ComponentActivity() {
             btn.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
                 when(motionEvent.actionMasked){
                     MotionEvent.ACTION_DOWN -> {
-                        btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
+
+                        val btn = findViewById<ImageButton>(R.id.start_game_inizial_btn)
+                        btn.setBackgroundResource(R.drawable.start_touched)
                         true
                     }
                     MotionEvent.ACTION_UP -> {
+                        val btn = findViewById<ImageButton>(R.id.start_game_inizial_btn)
+                        btn.setBackgroundResource(R.drawable.start)
                         if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                            make_number_for_player(ind, btn)
-                            btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+                            make_number_for_player(ind)
+
                         }
                         true
                     }
@@ -268,24 +224,6 @@ class MainActivity : ComponentActivity() {
             btn_clear.setText("X")
             btn_clear.setTextSize(27f)
             btn_clear.setTextColor(getColor(R.color.cancel_keyboard_lst_players))
-            btn_clear.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
-                when(motionEvent.actionMasked){
-                    MotionEvent.ACTION_DOWN ->{
-                        btn_clear.setTextColor(getColor(R.color.cancel_keyboard_clicked_lst_players))
-                        true
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        btn_clear.setTextColor(getColor(R.color.cancel_keyboard_lst_players))
-                        if ((btn_clear.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn_clear.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                            make_number_for_player(-1, btn_clear)
-                        }
-                        true
-                    }
-                    else -> {
-                        true
-                    }
-                }
-            })
             l.addView(btn_clear)
 
             for (i in this.players.size + 2..(this.players.size / 4 + 1) * 4) {
@@ -303,24 +241,6 @@ class MainActivity : ComponentActivity() {
             btn_clear.setText("X")
             btn_clear.setTextSize(27f)
             btn_clear.setTextColor(getColor(R.color.cancel_keyboard_lst_players))
-            btn_clear.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
-                when(motionEvent.actionMasked){
-                    MotionEvent.ACTION_DOWN ->{
-                        btn_clear.setTextColor(getColor(R.color.cancel_keyboard_clicked_lst_players))
-                        true
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        btn_clear.setTextColor(getColor(R.color.cancel_keyboard_lst_players))
-                        if ((btn_clear.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn_clear.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                            make_number_for_player(-1, btn_clear)
-                        }
-                        true
-                    }
-                    else -> {
-                        true
-                    }
-                }
-            })
             l.addView(btn_clear)
             for (i in 1..3){
                 l.addView(make_invisible_btn())
@@ -338,9 +258,5 @@ class MainActivity : ComponentActivity() {
         tx.text = ""
 
         layout.addView(tx, 5)
-    }
-
-
-    fun inizializate_role_making(){
     }
 }
