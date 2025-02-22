@@ -104,7 +104,7 @@
                             android:id="@+id/player_1_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -131,7 +131,7 @@
                             android:id="@+id/player_2_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -158,7 +158,7 @@
                             android:id="@+id/player_3_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -185,7 +185,7 @@
                             android:id="@+id/player_4_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -212,7 +212,7 @@
                             android:id="@+id/player_5_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -239,7 +239,7 @@
                             android:id="@+id/player_6_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -266,7 +266,7 @@
                             android:id="@+id/player_7_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -293,7 +293,7 @@
                             android:id="@+id/player_8_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -320,7 +320,7 @@
                             android:id="@+id/player_9_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -347,7 +347,7 @@
                             android:id="@+id/player_10_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -374,7 +374,7 @@
                             android:id="@+id/player_11_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -401,7 +401,7 @@
                             android:id="@+id/player_12_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -428,7 +428,7 @@
                             android:id="@+id/player_13_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
@@ -455,7 +455,7 @@
                             android:id="@+id/player_14_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="10"
+                            android:layout_weight="7"
                             android:background="@drawable/btn_element"
                             android:textColor="@color/lst_players_btn"
                             android:text="X"/>
