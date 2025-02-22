@@ -12,5 +12,7 @@
     <color name="background_keyboard_lst_players">#251919</color>
     <color name="cancel_keyboard_lst_players">#5a1717</color>
     <color name="background">#261212</color>
+    <color name="btn_selected_lst_players">#969696</color>
+    <color name="btn_is_selecting_lst_players">#505050</color>
     <color name="nothing"></color>
 </resources>

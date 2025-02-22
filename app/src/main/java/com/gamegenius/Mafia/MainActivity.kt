@@ -22,7 +22,9 @@ import androidx.core.view.setPadding
 import kotlin.properties.Delegates
 
 class MainActivity : ComponentActivity() {
-    private var players: MutableList<Int> = mutableListOf<Int>(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
+    private var players: MutableList<Help_file> = mutableListOf<Help_file>(Help_file(-1, null),
+        Help_file(-1, null),
+        Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null))
     private var players_name: MutableList<String> = mutableListOf("player 1", "player 2", "player 3", "player 4", "player 5", "player 6", "player 7", "player 8", "player 9", "player 10", "player 11", "player 12", "player 13", "player 14")
     private var is_clicked_players_lst: Boolean = false
     private var  current_player_selected_players_lst: Int = -1
@@ -102,7 +104,28 @@ class MainActivity : ComponentActivity() {
 
 
     fun make_number_for_player(number:Int){
-
+        fun get_player_by_number(num:Int):Help_file{
+            for (i in 0..this.players.size){
+                if (num == this.players[i].num) return this.players[i]
+            }
+            return Help_file(num, Button(this))
+        }
+        if (this.players.contains(get_player_by_number(number)) == false) {
+            if (this.players[this.current_player_selected_players_lst].num != -1){
+                val old_btn = this.players[this.current_player_selected_players_lst].btn
+                if (old_btn != null) {
+                    old_btn.setTextColor(getColor(R.color.white))
+                }
+            }
+            var id = resources.getIdentifier(
+                "player_${this.current_player_selected_players_lst}_btn",
+                "id",
+                packageName
+            )
+            val btn = findViewById<Button>(id)
+            btn.setText(number.toString())
+            this.players[this.current_player_selected_players_lst-1].num = number
+        }
     }
 
     fun make_keyboard(){
@@ -123,14 +146,13 @@ class MainActivity : ComponentActivity() {
             btn.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
                 when(motionEvent.actionMasked){
                     MotionEvent.ACTION_DOWN -> {
-                        // Здесь должна быть твоя анимация (начало)
+                        btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
                         true
                     }
                     MotionEvent.ACTION_UP -> {
-                        // Здесь она должна закончиться
                         if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
                             make_number_for_player(ind)
-
+                            btn.setTextColor(getColor(R.color.btn_selected_lst_players))
                         }
                         true
                     }
