@@ -11,14 +11,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     private var players: MutableList<Help_file> = mutableListOf<Help_file>(Help_file(-1, null),
         Help_file(-1, null),
         Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null))
     private var players_name: MutableList<String> = mutableListOf("player 1", "player 2", "player 3", "player 4", "player 5", "player 6", "player 7", "player 8", "player 9", "player 10", "player 11", "player 12", "player 13", "player 14")
+    private var players_data: MutableList<Player> = mutableListOf()
     private var is_clicked_players_lst: Boolean = false
-    private var  current_player_selected_players_lst: Int = -1
+    private var current_player_selected_players_lst: Int = -1
+    private var is_paused:Boolean = false
+    private var is_muted:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +59,7 @@ class MainActivity : ComponentActivity() {
                 MotionEvent.ACTION_UP -> {
                     btn.setImageResource(R.drawable.start)
                     if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
+                        // Обновление кнопки
                         inizializate_lst_players()
                     }
                     true
@@ -102,7 +107,7 @@ class MainActivity : ComponentActivity() {
                 MotionEvent.ACTION_UP -> {
                     btn_start.setImageResource(R.drawable.start)
                     if ((btn_start.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn_start.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                        inizializate_lst_players()
+                        inizializate_role_making()
                     }
                     true
                 }
@@ -349,6 +354,57 @@ class MainActivity : ComponentActivity() {
 
 
     fun inizializate_role_making(){
+        setContentView(R.layout.role_screen_layout)
+        for (i in 0..this.players.size-1){
+            if (this.players[i].num != -1) this.players_data.add(Player(this.players_name[i], "Noname", 0, 0, 0))
+        }
+        println(this.players_data.size)
+        val roles: List<Int> = Card_kit.get_lst_of_cards(14) //this.players_data.size)
 
+        for ((i, el) in this.players_data.withIndex()){
+            val role:Int = Random.nextInt(roles.size.toInt())
+            println(role)
+        }
+
+        var btn = findViewById<ImageButton>(R.id.pause_btn_role_screen)
+        btn.setOnClickListener(View.OnClickListener { when (this.is_paused) {
+            false -> {
+                btn.setImageResource(R.drawable.play)
+                this.is_paused = true
+                true
+            }
+            true -> {
+                btn.setImageResource(R.drawable.pause)
+                this.is_paused = false
+                true
+            }
+        } })
+
+        btn = findViewById<ImageButton>(R.id.sound_btn_role_screen)
+        btn.setOnClickListener(View.OnClickListener { when (this.is_muted) {
+            false -> {
+                btn.setImageResource(R.drawable.play)
+                this.is_muted = true
+                true
+            }
+            true -> {
+                btn.setImageResource(R.drawable.pause)
+                this.is_muted = false
+                true
+            }
+        } })
+
+        btn = findViewById<ImageButton>(R.id.next_btn_role_screen)
+        btn.setOnTouchListener(View.OnTouchListener {view, event -> when (event.actionMasked){
+            MotionEvent.ACTION_DOWN -> {
+                btn.setImageResource(R.drawable.start_touched_anim)
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                btn.setImageResource(R.drawable.start)
+                true
+            }
+            else -> {true}
+        }})
     }
 }
