@@ -11,12 +11,15 @@ sealed class Card_kit{
     val fourteen: List<Int> = listOf(7, 3, 1, 1, 1, 1, 0)
 
     companion object {
-        val fourteen: List<Int> = listOf(7, 3, 1, 1, 1, 1, 0)
-        fun get_lst_of_cards(quality:Int):List<Int>{
+        val fourteen: MutableList<Int> = mutableListOf(7, 3, 1, 1, 1, 1, 0)
+        fun get_lst_of_cards(quality:Int):MutableList<Int>{
             when (quality){
                 14 -> return fourteen
-                else -> return listOf<Int>()
+                else -> return mutableListOf()
             }
         }
     }
 }
+
+
+

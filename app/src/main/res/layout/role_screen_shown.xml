@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/main_img_role_screen"
+            android:id="@+id/main_img_role_screen_shown"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
