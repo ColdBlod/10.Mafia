@@ -85,6 +85,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/player_1_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -112,6 +113,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_2_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -139,6 +141,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_3_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -166,6 +169,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_4_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -193,6 +197,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_5_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -220,6 +225,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_6_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -247,6 +253,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_7_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -274,6 +281,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_8_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -301,6 +309,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_9_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -328,6 +337,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_10_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -355,6 +365,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_11_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -382,6 +393,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_12_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -409,6 +421,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_13_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"
@@ -436,6 +449,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/player_14_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/lst_element"

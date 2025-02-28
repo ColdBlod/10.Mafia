@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
     private var players: MutableList<Help_file> = mutableListOf<Help_file>(Help_file(-1, null),
         Help_file(-1, null),
         Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null), Help_file(-1, null))
-    private var players_name: MutableList<String> = mutableListOf("player 1", "player 2", "player 3", "player 4", "player 5", "player 6", "player 7", "player 8", "player 9", "player 10", "player 11", "player 12", "player 13", "player 14")
+    private var players_name: MutableList<String> = mutableListOf("Вагю", "Железная леди", "Тур де шале", "Мистер У", "Керамогранит", "Святой Отец", "Осмыслитель", "Иван Иваныч", "Тимбер", "Кассиопея", "Зануда", "Котофей", "Торт", "Рея")
     private var players_data: MutableList<Player> = mutableListOf()
     private var is_clicked_players_lst: Boolean = false
     private var current_player_selected_players_lst: Int = -1
@@ -74,13 +74,36 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
-
     fun inizializate_lst_players(){
         setContentView(R.layout.lst_of_players_start)
         for (i in 1..this.players.size) {
-            val id = resources.getIdentifier("player_${i}_btn", "id", packageName)
+            var id = resources.getIdentifier("player_${i}_btn", "id", packageName)
             val btn = findViewById<Button>(id)
+            id = resources.getIdentifier("player_${i}_layout", "id", packageName)
+            val layout: LinearLayout = findViewById(id)
+            id = resources.getIdentifier("player_${i}_lb", "id", packageName)
+            val textview: TextView = findViewById(id)
+            textview.setText(players_name[i-1])
 
+            layout.setOnClickListener(View.OnClickListener {
+                if (this.is_clicked_players_lst == false) {make_keyboard()
+                    btn.setTextColor(getColor(R.color.purple_700))
+                    this.current_player_selected_players_lst = i
+                    this.is_clicked_players_lst = true
+                }else if (i != this.current_player_selected_players_lst){
+                    var id = resources.getIdentifier("player_${this.current_player_selected_players_lst}_btn", "id", packageName)
+                    var btn = findViewById<Button>(id)
+                    if (this.players[this.current_player_selected_players_lst-1].num == -1) btn.setTextColor(getColor(R.color.lst_players_btn))
+                    else btn.setTextColor(getColor(R.color.white))
+
+                    id = resources.getIdentifier("player_${i}_btn", "id", packageName)
+                    btn = findViewById<Button>(id)
+                    btn.setTextColor(getColor(R.color.purple_700))
+
+                    this.current_player_selected_players_lst = i
+                    println(this.current_player_selected_players_lst.toString())
+                }
+            })
             btn.setOnClickListener(View.OnClickListener {
                 if (this.is_clicked_players_lst == false) {make_keyboard()
                     btn.setTextColor(getColor(R.color.purple_700))
@@ -119,7 +142,6 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
-
     fun make_number_for_player(number:Int, itbtn:Button){
         fun get_player_by_number(num:Int):Help_file{
             for (i in 0..this.players.size-1){
@@ -170,7 +192,6 @@ class MainActivity : ComponentActivity() {
             this.players[this.current_player_selected_players_lst-1] = Help_file(-1, null)
         }
     }
-
     fun make_keyboard(){
         val layout: LinearLayout = this.findViewById(R.id.main_layout_lst_players)
 
@@ -435,7 +456,6 @@ class MainActivity : ComponentActivity() {
             else -> {true}
         }})
     }
-
     fun preshow_player(){
         setContentView(R.layout.role_screen_layout)
         if (this.current_player_selected_players_lst != this.players_data.size) {
@@ -510,7 +530,6 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
     fun show_player(){
         val textview = findViewById<TextView>(R.id.saying_textview_role_screen_shown)
         when (this.current_player_selected_players_lst){
@@ -549,6 +568,8 @@ class MainActivity : ComponentActivity() {
                     if (this.current_player_selected_players_lst != this.players_data.size-1) {
                         this.current_player_selected_players_lst += 1
                         preshow_player()
+                    } else {
+
                     }
                 }
                 true
@@ -556,8 +577,6 @@ class MainActivity : ComponentActivity() {
             else -> {true}
         } })
     }
-
-
     fun inizializate_show_lst_players(){
         setContentView(R.layout.players_lst_screen)
         fun createPlayerListItem(context: Context, playerNumber: String, playerName: String, playerPosition: String, parentView: ViewGroup) {
@@ -635,4 +654,6 @@ class MainActivity : ComponentActivity() {
             preshow_player()
         })
     }
+
+    fun create
 }
