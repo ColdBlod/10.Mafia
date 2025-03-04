@@ -655,5 +655,7 @@ class MainActivity : ComponentActivity() {
         })
     }
 
-    fun create
+    fun create_the_player_settings(){
+         val layout = findViewById<
+    }
 }
