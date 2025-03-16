@@ -1,10 +1,10 @@
-package com.gamegenius.Mafia
+package com.gamegenius.mafia
 
 import android.widget.Button
 
 data class Help_file(var num:Int, var btn:Button?)
 
-data class Player(var name:String, var role:String, var voices:Int, var extras:Int, var Fols:Int)
+data class Player(var name:String, var role:String, var voices:Int, var extras:Float, var Fols:Int, var is_alive:Boolean)
 
 // Мирный, мафия, дон, шериф, красотка, маньяк, доктор
 sealed class Card_kit{
@@ -20,6 +20,4 @@ sealed class Card_kit{
         }
     }
 }
-
-
 
