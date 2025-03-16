@@ -36,6 +36,7 @@
             android:textAlignment="textStart"
             android:paddingLeft="60px"
             android:layout_weight="0"
+            android:textColor="@color/white"
             android:textSize="50px"
             android:paddingTop="30px"
             android:paddingBottom="40px"
@@ -66,6 +67,7 @@
             android:paddingRight="40px"
             android:paddingBottom="10px"
             android:text="Рассадка"
+            android:textColor="@color/white"
             android:textAlignment="gravity"
             android:textSize="50px" />
         <LinearLayout
@@ -99,6 +101,7 @@
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
+                            android:textColor="@color/white"
                             android:text="Игрок 1" />
 
                         <Button
@@ -124,6 +127,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -152,6 +156,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -181,6 +186,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10px"
+                            android:textColor="@color/white"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
                             android:text="Игрок 4" />
@@ -209,6 +215,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10px"
+                            android:textColor="@color/white"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
                             android:text="Игрок 5" />
@@ -236,6 +243,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -266,6 +274,7 @@
                             android:layout_weight="1"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
+                            android:textColor="@color/white"
                             android:paddingLeft="70px"
                             android:text="Игрок 7" />
 
@@ -294,6 +303,7 @@
                             android:layout_weight="1"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
+                            android:textColor="@color/white"
                             android:paddingLeft="70px"
                             android:text="Игрок 8" />
 
@@ -322,6 +332,7 @@
                             android:layout_weight="1"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
+                            android:textColor="@color/white"
                             android:paddingLeft="70px"
                             android:text="Игрок 9" />
 
@@ -349,6 +360,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="10px"
+                            android:textColor="@color/white"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
                             android:text="Игрок 10" />
@@ -376,6 +388,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -404,6 +417,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -432,6 +446,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"
@@ -460,6 +475,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="@color/white"
                             android:paddingTop="10px"
                             android:paddingBottom="10px"
                             android:paddingLeft="70px"

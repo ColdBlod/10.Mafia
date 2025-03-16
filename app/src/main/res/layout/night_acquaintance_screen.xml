@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/sound_btn_role_screen"
+                android:id="@+id/sound_btn_acquaintance_screen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
@@ -30,7 +30,7 @@
                 android:src="@drawable/sound" />
 
             <ImageButton
-                android:id="@+id/pause_btn_role_screen"
+                android:id="@+id/pause_btn_acquaintance_screen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
@@ -40,7 +40,7 @@
                 android:src="@drawable/pause" />
 
             <Button
-                android:id="@+id/check_roles_btn_role_screen"
+                android:id="@+id/check_roles_btn_acquaintance_screen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,18 +61,28 @@
             android:textColor="@color/white"
             android:layout_marginTop="100px"
             android:textSize="5mm"
-            android:text="Просыпается\nигрок" />
+            android:text="Ночное\nзнакомство" />
 
-        <ImageView
-            android:id="@+id/main_img_role_screen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="50px"
-            android:layout_marginRight="50px"
-            android:layout_marginBottom="50px"
-            android:src="@drawable/one" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginLeft="50px"
+        android:layout_marginRight="50px"
+        android:layout_marginBottom="50px"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/lb_timer_acquaintance_screen"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="100sp"
+            android:textColor="@color/white"
+            android:text="0"
+            android:gravity="center"
+            android:background="@drawable/timer_background" />
+    </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
@@ -81,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageButton
-            android:id="@+id/next_btn_role_screen"
+            android:id="@+id/next_btn_acquaintance_screen"
             android:scaleType="fitCenter"
             android:layout_marginBottom="10px"
             android:layout_width="wrap_content"
@@ -92,14 +102,13 @@
             android:src="@drawable/start" />
 
         <TextView
-            android:id="@+id/saying_textview_role_screen"
+            android:id="@+id/saying_textview_acquaintance_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="80px"
+            android:textSize="40px"
             android:layout_weight="1"
-            android:text="Показать роль" />
+            android:text="Завершить ночь" />
     </LinearLayout>
 
 </LinearLayout>

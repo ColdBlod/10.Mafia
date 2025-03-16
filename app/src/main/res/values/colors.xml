@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#ffffff</color>
     <color name="red">#ff0000</color>
+    <color name="low_red">#ad212f</color>
     <color name="lst_players_btn">#86323a</color>
     <color name="background_keyboard_lst_players">#251919</color>
     <color name="cancel_keyboard_lst_players">#5a1717</color>
@@ -15,5 +16,8 @@
     <color name="background">#261212</color>
     <color name="btn_selected_lst_players">#7d7d89</color>
     <color name="btn_is_selecting_lst_players">#3c3c3c</color>
-    <color name="nothing"></color>
+    <color name="two_fols">#dd9b29</color>
+    <color name="green">#549d69</color>
+    <color name="gold">#ebba34</color>
+    <color name="nothing">#00000000</color>
 </resources>
