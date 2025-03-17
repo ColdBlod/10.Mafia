@@ -1,4 +1,4 @@
-package com.gamegenius.mafia
+package com.gamegenius.Mafia
 
 import android.widget.Button
 

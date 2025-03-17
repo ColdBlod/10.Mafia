@@ -1,4 +1,4 @@
-package com.gamegenius.mafia
+package com.gamegenius.Mafia
 
 import android.content.Context
 import android.graphics.Color
@@ -22,10 +22,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-
-
 import androidx.core.view.setPadding
-import com.gamegenius.mafia.R
+import com.gamegenius.Mafia.R
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -41,9 +39,11 @@ class MainActivity : ComponentActivity() {
     private var is_paused:Boolean = false
     private var is_muted:Boolean = false
     private var night:Int = -1
+    private var is_role_alive = true
     private var killing_lst = mutableListOf<Int>()
     private var don_checked_players: MutableMap<Int, Boolean> = mutableMapOf()
     private var sheriff_checked_players: MutableMap<Int, Boolean> = mutableMapOf()
+    private var alive_lst = mutableListOf<Int>()
     private var timer_to_say: Int = 15
     private var step = 1
     private var player_choice = 0
@@ -423,19 +423,22 @@ class MainActivity : ComponentActivity() {
     fun inizializate_role_making(){
         setContentView(R.layout.role_screen_layout)
         var ts = MutableList(this.players.size) {Player(this.players_name[it], "Noname", 0, 0f, 0, true)}
+        var out_lst_indexs = MutableList(this.players.size) {it+1}
+        var out_lst = mutableListOf<Player>()
         for (i in 0..this.players.size-1){
             if (this.players[i].num != -1) {
                 ts[this.players[i].num - 1] = Player(this.players_name[i], "Noname", 0, 0f, 0, true)
-                ts[i] = Player(this.players_name[this.players[i].num-1], "Noname", 0, 0f, 0, true)
+                out_lst_indexs.remove(this.players[i].num)
+            }
+            else {
+                out_lst.add(Player(this.players_name[i], "Noname", 0, 0f, 0, true))
             }
         }
 
-        for (dt in ts){
-            if (dt.name != "") this.players_data.add(dt)
-        }
+        for ((ii, i) in out_lst_indexs.withIndex()) ts[i-1] = out_lst[ii]
+        for (dt in ts) if (dt.name != "") this.players_data.add(dt)
 
         this.players_name = this.players_data.map { it.name }.toMutableList()
-
 
         val roles: MutableList<Int> =
             Card_kit.get_lst_of_cards(14) //this.players_data.size)
@@ -454,7 +457,6 @@ class MainActivity : ComponentActivity() {
             this.players_data[ind].role = listOf("Мирный", "Мафия", "Дон", "Шериф", "Красотка", "Маньяк", "Доктор")[role]
 
             roles[role] -= 1
-            sum -= 1
         }
 
         val btn_pause = findViewById<ImageButton>(R.id.pause_btn_role_screen)
@@ -753,10 +755,8 @@ class MainActivity : ComponentActivity() {
                 val queue = findViewById<Button>(R.id.check_roles_btn_acquaintance_screen)
                 queue.setOnClickListener(View.OnClickListener {
                     inizializate_show_lst_players()
-                    handler.removeCallbacks(runnable)
                     val btn_back = findViewById<Button>(R.id.check_roles_btn_players_lst)
                     btn_back.setOnClickListener(View.OnClickListener {
-                        if (this.is_paused == false) handler.postDelayed(runnable, 1000)
                         create_zero_screen(next_btn, handler, runnable)
                     })})
 
@@ -831,7 +831,9 @@ class MainActivity : ComponentActivity() {
 
         }
         else if (this.night == 0){
-            this.current_player = 0
+            this.alive_lst = MutableList(this.players_data.size) {it}
+            this.current_player = this.alive_lst[0]
+            println(this.alive_lst)
             make_vote_screen()
             inizializate_voting()
         }
@@ -893,65 +895,66 @@ class MainActivity : ComponentActivity() {
                 }
             }
             if (this.queue_of_nigth[this.current_player] == "Доктор" && this.is_doctor_health_himself == true && this.players_id == ind-1) btn.setTextColor(getColor(R.color.btn_selected_lst_players))
-
             if (this.queue_of_nigth[this.current_player] == this.players_data[ind-1].role && this.queue_of_nigth[this.current_player] != "Доктор") btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+            if (this.is_role_alive == false) btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
+
             btn.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
                 when(motionEvent.actionMasked){
                     MotionEvent.ACTION_DOWN -> {
-                        btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
+                        if (this.is_role_alive == true) btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
                         true
                     }
                     MotionEvent.ACTION_UP -> {
-                        if ((this.queue_of_nigth[this.current_player] != this.players_data[ind-1].role || this.queue_of_nigth[this.current_player] == "Доктор" ) && ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0))) {
-                            if (this.queue_of_nigth[this.current_player] == "Дон") {
-                                don_check(ind)
-                                when (this.don_checked_players[ind]) {
-                                    true -> btn.setTextColor(getColor(R.color.green))
-                                    false -> btn.setTextColor(getColor(R.color.red))
-                                    else -> {}
-                                }
-                            }
-                            else if (this.queue_of_nigth[this.current_player] == "Шериф") {
-                                sherif_check(ind)
-                                when (this.sheriff_checked_players[ind]) {
-                                    true -> btn.setTextColor(getColor(R.color.green))
-                                    false -> btn.setTextColor(getColor(R.color.red))
-                                    else -> {}
-                                }
-                            }
-                            else if (this.queue_of_nigth[this.current_player] == "Доктор"){
-                                println((ind-1 == this.players_id).toString() + " | " + (this.is_checked_at_action == false).toString() + " | " + (this.is_doctor_health_himself == false).toString())
-                                if (ind-1 == this.players_id){
-                                    if (this.is_doctor_health_himself == false) {
-                                        if (this.is_checked_at_action == true) this.choizen_btn.setTextColor(getColor(R.color.white))
+                        if (this.is_role_alive == true) {
+                            if ((this.queue_of_nigth[this.current_player] != this.players_data[ind - 1].role || this.queue_of_nigth[this.current_player] == "Доктор") && ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0))) {
+                                if (this.queue_of_nigth[this.current_player] == "Дон") {
+                                    don_check(ind)
+                                    when (this.don_checked_players[ind]) {
+                                        true -> btn.setTextColor(getColor(R.color.green))
+                                        false -> btn.setTextColor(getColor(R.color.red))
+                                        else -> {}
+                                    }
+                                } else if (this.queue_of_nigth[this.current_player] == "Шериф") {
+                                    sherif_check(ind)
+                                    when (this.sheriff_checked_players[ind]) {
+                                        true -> btn.setTextColor(getColor(R.color.green))
+                                        false -> btn.setTextColor(getColor(R.color.red))
+                                        else -> {}
+                                    }
+                                } else if (this.queue_of_nigth[this.current_player] == "Доктор") {
+                                    println((ind - 1 == this.players_id).toString() + " | " + (this.is_checked_at_action == false).toString() + " | " + (this.is_doctor_health_himself == false).toString())
+                                    if (ind - 1 == this.players_id) {
+                                        if (this.is_doctor_health_himself == false) {
+                                            if (this.is_checked_at_action == true) this.choizen_btn.setTextColor(
+                                                getColor(R.color.white)
+                                            )
+                                            this.is_checked_at_action = true
+                                            this.choizen_btn = btn
+                                            this.player_choice = ind
+                                        } else btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+                                    } else if (this.is_checked_at_action == false) {   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
+                                        this.choizen_btn = btn
                                         this.is_checked_at_action = true
+                                        this.player_choice = ind
+                                    } else {
+                                        this.choizen_btn.setTextColor(getColor(R.color.white))
                                         this.choizen_btn = btn
                                         this.player_choice = ind
-                                    }else btn.setTextColor(getColor(R.color.btn_selected_lst_players))
-                                } else if (this.is_checked_at_action == false){   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
+                                    }
+                                } else if (this.is_checked_at_action == false && this.queue_of_nigth[this.current_player] != this.players_data[ind - 1].role) {   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
                                     this.choizen_btn = btn
                                     this.is_checked_at_action = true
                                     this.player_choice = ind
-                                }
-                                else {
+                                } else {
                                     this.choizen_btn.setTextColor(getColor(R.color.white))
                                     this.choizen_btn = btn
                                     this.player_choice = ind
                                 }
-                            }
-                            else if (this.is_checked_at_action == false && this.queue_of_nigth[this.current_player] != this.players_data[ind-1].role){   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
-                                this.choizen_btn = btn
-                                this.is_checked_at_action = true
-                                this.player_choice = ind
-                            }
-                            else {
-                                this.choizen_btn.setTextColor(getColor(R.color.white))
-                                this.choizen_btn = btn
-                                this.player_choice = ind
-                            }
+                            } else if (this.queue_of_nigth[this.current_player] == this.players_data[ind - 1].role) btn.setTextColor(
+                                getColor(R.color.btn_selected_lst_players)
+                            )
+                            else btn.setTextColor(getColor(R.color.white))
                         }
-                        else if (this.queue_of_nigth[this.current_player] == this.players_data[ind-1].role) btn.setTextColor(getColor(R.color.btn_selected_lst_players))
-                        else btn.setTextColor(getColor(R.color.white))
                         true
                     }
                     else -> {
@@ -1109,6 +1112,8 @@ class MainActivity : ComponentActivity() {
         layout.addView(tx)
     }
     fun mafia_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Мафия" && el.is_alive == true) this.is_role_alive = true
         this.is_checked_at_action = false
         setContentView(R.layout.night_work_screen)
         make_keyboard_for_night()
@@ -1138,7 +1143,6 @@ class MainActivity : ComponentActivity() {
                     findViewById<TextView>(R.id.lb_timer_night_work).text = "0"
                     if (player_choice != 0) night_result["Мафия"] = player_choice
                     current_player += 1
-                    if (player_choice != 0) players_data[player_choice-1].is_alive = false
                     player_choice = 0
                     is_checked_at_action = false
                     who_next_working()
@@ -1176,7 +1180,6 @@ class MainActivity : ComponentActivity() {
                     handler.removeCallbacks(runnable)
                     this.current_player += 1
                     if (this.player_choice != 0) this.night_result["Мафия"] = this.player_choice
-                    if (this.player_choice != 0) this.players_data[this.player_choice-1].is_alive = false
                     this.player_choice = 0
                     this.is_checked_at_action = false
                     who_next_working()
@@ -1187,6 +1190,8 @@ class MainActivity : ComponentActivity() {
         } })
     }
     fun don_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Дон" && el.is_alive == true) this.is_role_alive = true
         this.is_checked_at_action = false
         setContentView(R.layout.night_work_screen)
         make_keyboard_for_night()
@@ -1299,6 +1304,8 @@ class MainActivity : ComponentActivity() {
         }
     }
     fun sherif_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Шериф" && el.is_alive == true) this.is_role_alive = true
         this.is_checked_at_action = false
         setContentView(R.layout.night_work_screen)
         make_keyboard_for_night()
@@ -1408,6 +1415,8 @@ class MainActivity : ComponentActivity() {
         }
     }
     fun maniac_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Маньяк" && el.is_alive == true) this.is_role_alive = true
         this.is_checked_at_action = false
         setContentView(R.layout.night_work_screen)
         make_keyboard_for_night()
@@ -1437,7 +1446,6 @@ class MainActivity : ComponentActivity() {
                     findViewById<TextView>(R.id.lb_timer_night_work).text = "0"
                     if (player_choice != 0) night_result["Маньяк"] = player_choice
                     current_player += 1
-                    if (player_choice != 0) players_data[player_choice-1].is_alive = false
                     player_choice = 0
                     is_checked_at_action = false
                     who_next_working()
@@ -1474,7 +1482,6 @@ class MainActivity : ComponentActivity() {
                     handler.removeCallbacks(runnable)
                     this.current_player += 1
                     if (this.player_choice != 0) night_result["Маньяк"] = this.player_choice
-                    if (this.player_choice != 0) this.players_data[this.player_choice-1].is_alive = false
                     this.player_choice = 0
                     this.is_checked_at_action = false
                     who_next_working()
@@ -1485,6 +1492,8 @@ class MainActivity : ComponentActivity() {
         } })
     }
     fun doctor_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Доктор" && el.is_alive == true) this.is_role_alive = true
         this.is_checked_at_action = false
         for (i in 0..this.players_data.size-1) if (this.players_data[i].role == "Доктор") this.players_id = i
         setContentView(R.layout.night_work_screen)
@@ -1565,6 +1574,9 @@ class MainActivity : ComponentActivity() {
         } })
     }
     fun gorgeous_work(){
+        this.is_role_alive = false
+        for (el in this.players_data) if (el.role == "Красотка" && el.is_alive == true) this.is_role_alive = true
+
         this.is_checked_at_action = false
         setContentView(R.layout.night_work_screen)
         make_keyboard_for_night()
@@ -1646,7 +1658,7 @@ class MainActivity : ComponentActivity() {
         while (this.current_player != this.queue_of_nigth.size && ans == "") {
             var res = this.queue_of_nigth[this.current_player]
             for (el in this.players_data){
-                if (el.role == res && el.is_alive == true) ans = res
+                if (el.role == res) ans = res
             }
 
             if (ans == "") this.current_player += 1
@@ -1796,19 +1808,6 @@ class MainActivity : ComponentActivity() {
     fun next_day(){
         for (i in 0..this.players_data.size-1) this.players_data[i].voices = 0
         this.current_player = this.players_data.size
-        make_vote_screen()
-        val exit_btn = findViewById<Button>(R.id.end_the_game_in_the_start_btn)
-        exit_btn.setOnClickListener(OnClickListener { pre_end_the_game_in_start()
-            val back_btn = findViewById<Button>(R.id.back_to_the_game_end_the_game_start)
-            back_btn.setOnClickListener({next_day()}) })
-
-        val saying_lb = findViewById<TextView>(R.id.saying_lb_vote_screen)
-        saying_lb.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 15f)
-        saying_lb.setBackgroundColor(getColor(R.color.red))
-
-        val undexbtn_textview = findViewById<TextView>(R.id.text_lb_next_vote_screen)
-        undexbtn_textview.text = "Начать речь"
-
         this.killing_lst = mutableListOf()
         for (el in this.queue_of_nigth){
             if (this.night_result[el] != -1){
@@ -1824,6 +1823,27 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        this.alive_lst = mutableListOf()
+        for ((i, el) in this.players_data.withIndex()) if (el.is_alive == true) this.alive_lst.add(i)
+        for (i in 0..this.night-1) {
+            this.alive_lst.add(this.alive_lst[0])
+            this.alive_lst.removeAt(0)
+        }
+        println(this.alive_lst)
+        for (el in this.killing_lst) this.players_data[el-1].is_alive = false
+        make_vote_screen()
+        val exit_btn = findViewById<Button>(R.id.end_the_game_in_the_start_btn)
+        exit_btn.setOnClickListener(OnClickListener { pre_end_the_game_in_start()
+            val back_btn = findViewById<Button>(R.id.back_to_the_game_end_the_game_start)
+            back_btn.setOnClickListener({next_day()}) })
+
+        val saying_lb = findViewById<TextView>(R.id.saying_lb_vote_screen)
+        saying_lb.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 15f)
+        saying_lb.setBackgroundColor(getColor(R.color.red))
+
+        val undexbtn_textview = findViewById<TextView>(R.id.text_lb_next_vote_screen)
+        undexbtn_textview.text = "Начать речь"
+
         if (this.killing_lst.isNotEmpty()){
             this.killing_lst.sort()
             var ans = ""
@@ -1841,7 +1861,7 @@ class MainActivity : ComponentActivity() {
             MotionEvent.ACTION_UP -> {
                 next_btn.setImageResource(R.drawable.start)
                 if ((next_btn.width > event.getX() && event.getX() > 0) && (next_btn.height > event.getY() && event.getY() > 0)){
-                    this.current_player = 0
+                    this.current_player = this.alive_lst[0]
                     while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
                     if (this.killing_lst.isNotEmpty()) {this.current_player = this.killing_lst[0]-1
                         make_vote_screen()
@@ -1886,12 +1906,18 @@ class MainActivity : ComponentActivity() {
         val handler = Handler()
         var timer_was_started = false
         val stop = this.timer_to_say
-        fun next_player(){this.current_player += 1
-            while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
-            make_vote_screen()
-            if (this.current_player != this.players_data.size) inizializate_voting()
-            else if (this.night == 0) end_the_day()
+        fun next_player(){val ind = this.alive_lst.indexOf(this.current_player)
+            if (ind+1 != this.alive_lst.size) {
+                this.current_player = this.alive_lst[ind+1]
+                make_vote_screen()
+                inizializate_voting()
+            }
+            else if (this.night == 0) {
+                make_vote_screen()
+                end_the_day()
+            }
             else {
+                make_vote_screen()
                 before_voting()
             }}
 
@@ -1916,12 +1942,20 @@ class MainActivity : ComponentActivity() {
                             textview.setTextSize(30f)
                             textview.setBackgroundColor(getColor(R.color.nothing))
                         }
-                        this.current_player += 1
-                        while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
-                        runOnUiThread { make_vote_screen() }
-                        if (this.current_player != this.players_data.size) inizializate_voting()
-                        else if (this.night == 0) end_the_day()
-                        else {before_voting()}
+                        val ind = this.alive_lst.indexOf(this.current_player)
+                        if (ind+1 != this.alive_lst.size) {
+                            this.current_player = this.alive_lst[ind+1]
+                            runOnUiThread { make_vote_screen() }
+                            inizializate_voting()
+                        }
+                        else if (this.night == 0) {
+                            runOnUiThread { make_vote_screen() }
+                            end_the_day()
+                        }
+                        else {
+                            runOnUiThread { make_vote_screen() }
+                            before_voting()
+                        }
                     }
                     true
                 }
