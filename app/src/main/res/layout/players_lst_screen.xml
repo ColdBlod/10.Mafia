@@ -45,26 +45,35 @@
             android:text="Вернуться" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10px"
+        android:layout_gravity="center"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/show_layout_players_lst_screen"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_marginLeft="30px"
-            android:layout_marginRight="30px"
-            android:padding="10px"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_weight="1">
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/show_layout_players_lst_screen"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:padding="10px"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
-    </ScrollView>
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

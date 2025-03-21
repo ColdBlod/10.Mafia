@@ -19,11 +19,16 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.Text
 import androidx.core.view.setPadding
 import com.gamegenius.Mafia.R
+import java.util.Collections.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -46,6 +51,7 @@ class MainActivity : ComponentActivity() {
     private var alive_lst = mutableListOf<Int>()
     private var timer_to_say: Int = 15
     private var step = 1
+    private var archive_of_night_results:MutableMap<String, String> = mutableMapOf()
     private var player_choice = 0
     private val mafia_timer = 15
     private val maniac_timer = 15
@@ -73,6 +79,7 @@ class MainActivity : ComponentActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
+        for (el in this.queue_of_nigth) this.archive_of_night_results[el] = ""
         setContentView(R.layout.main)
         inzializate_start()
     }
@@ -833,7 +840,6 @@ class MainActivity : ComponentActivity() {
         else if (this.night == 0){
             this.alive_lst = MutableList(this.players_data.size) {it}
             this.current_player = this.alive_lst[0]
-            println(this.alive_lst)
             make_vote_screen()
             inizializate_voting()
         }
@@ -887,6 +893,7 @@ class MainActivity : ComponentActivity() {
                     false -> btn.setTextColor(getColor(R.color.red))
                     else -> {btn.setTextColor(getColor(R.color.white))} }
             }
+            if (this.players_data[ind-1].role == "Дон" && this.queue_of_nigth[this.current_player] == "Дон") btn.setTextColor(getColor(R.color.btn_selected_lst_players))
             if (this.queue_of_nigth[this.current_player] == "Шериф" && ind in this.sheriff_checked_players.keys){
                 when (this.sheriff_checked_players[ind]) {
                     true -> btn.setTextColor(getColor(R.color.green))
@@ -894,27 +901,31 @@ class MainActivity : ComponentActivity() {
                     else -> btn.setTextColor(getColor(R.color.white))
                 }
             }
-            if (this.queue_of_nigth[this.current_player] == "Доктор" && this.is_doctor_health_himself == true && this.players_id == ind-1) btn.setTextColor(getColor(R.color.btn_selected_lst_players))
-            if (this.queue_of_nigth[this.current_player] == this.players_data[ind-1].role && this.queue_of_nigth[this.current_player] != "Доктор") btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+            if (this.players_data[ind-1].role == "Шериф" && this.queue_of_nigth[this.current_player] == "Шериф") btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+
+            if (this.players_data[ind-1].role == "Красотка" && this.queue_of_nigth[this.current_player] == "Красотка") btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+            if (this.queue_of_nigth[this.current_player] == "Доктор" && (this.is_doctor_health_himself == true || this.players_id == ind-1)) btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+            if (this.players_data[ind-1].is_alive == false) btn.setTextColor(getColor(R.color.black))
             if (this.is_role_alive == false) btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
 
             btn.setOnTouchListener(View.OnTouchListener(){view, motionEvent ->
                 when(motionEvent.actionMasked){
                     MotionEvent.ACTION_DOWN -> {
-                        if (this.is_role_alive == true) btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
+                        if (this.is_role_alive == true || this.players_data[ind-1].is_alive == false) btn.setTextColor(getColor(R.color.btn_is_selecting_lst_players))
                         true
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (this.is_role_alive == true) {
+                        if (this.players_data[ind-1].is_alive == false){btn.setTextColor(getColor(R.color.black))}
+                        else if (this.is_role_alive == true) {
                             if ((this.queue_of_nigth[this.current_player] != this.players_data[ind - 1].role || this.queue_of_nigth[this.current_player] == "Доктор") && ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0))) {
-                                if (this.queue_of_nigth[this.current_player] == "Дон") {
+                                if (this.queue_of_nigth[this.current_player] == "Дон" && this.players_data[ind-1].role != "Дон") {
                                     don_check(ind)
                                     when (this.don_checked_players[ind]) {
                                         true -> btn.setTextColor(getColor(R.color.green))
                                         false -> btn.setTextColor(getColor(R.color.red))
                                         else -> {}
                                     }
-                                } else if (this.queue_of_nigth[this.current_player] == "Шериф") {
+                                } else if (this.queue_of_nigth[this.current_player] == "Шериф" && this.players_data[ind-1].role != "Шериф") {
                                     sherif_check(ind)
                                     when (this.sheriff_checked_players[ind]) {
                                         true -> btn.setTextColor(getColor(R.color.green))
@@ -922,12 +933,9 @@ class MainActivity : ComponentActivity() {
                                         else -> {}
                                     }
                                 } else if (this.queue_of_nigth[this.current_player] == "Доктор") {
-                                    println((ind - 1 == this.players_id).toString() + " | " + (this.is_checked_at_action == false).toString() + " | " + (this.is_doctor_health_himself == false).toString())
                                     if (ind - 1 == this.players_id) {
                                         if (this.is_doctor_health_himself == false) {
-                                            if (this.is_checked_at_action == true) this.choizen_btn.setTextColor(
-                                                getColor(R.color.white)
-                                            )
+                                            if (this.is_checked_at_action == true) this.choizen_btn.setTextColor(getColor(R.color.white))
                                             this.is_checked_at_action = true
                                             this.choizen_btn = btn
                                             this.player_choice = ind
@@ -941,7 +949,13 @@ class MainActivity : ComponentActivity() {
                                         this.choizen_btn = btn
                                         this.player_choice = ind
                                     }
-                                } else if (this.is_checked_at_action == false && this.queue_of_nigth[this.current_player] != this.players_data[ind - 1].role) {   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
+                                } else if (this.queue_of_nigth[this.current_player] == "Красотка") {   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
+                                    if (this.players_data[ind-1].role != "Красотка" && this.is_checked_at_action == false) {
+                                        this.choizen_btn = btn
+                                        this.is_checked_at_action = true
+                                        this.player_choice = ind
+                                    } else btn.setTextColor(getColor(R.color.btn_selected_lst_players))
+                                } else if (this.is_checked_at_action == false) {   //   (this.queue_of_nigth[this.current_player] != "Мафия" || (this.queue_of_nigth[this.current_player] == "Мафия" && this.players_data[ind-1].role != "Мафия"))) {
                                     this.choizen_btn = btn
                                     this.is_checked_at_action = true
                                     this.player_choice = ind
@@ -1145,7 +1159,6 @@ class MainActivity : ComponentActivity() {
                     current_player += 1
                     player_choice = 0
                     is_checked_at_action = false
-                    who_next_working()
                 }
                 else if (time >= 0) {
                     try{ findViewById<TextView>(R.id.lb_timer_night_work).text = time.toString()
@@ -1682,11 +1695,12 @@ class MainActivity : ComponentActivity() {
             val check_roles = findViewById<Button>(R.id.check_roles_btn_night_work)
             check_roles.setOnClickListener {
                 setContentView(R.layout.players_lst_screen)
-                fun createPlayerListItem(context: Context, playerNumber: String, playerName: String, playerPosition: String, parentView: ViewGroup) {
+                fun createPlayerListItem(context: Context, playerNumber: String, playerName: String, max_simv:Int, parentView: ViewGroup) {
                     val linearLayout = LinearLayout(context)
                     val params = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        1f
                     )
                     params.setMargins(0, 0, 0, 10)
                     linearLayout.layoutParams = params
@@ -1716,14 +1730,14 @@ class MainActivity : ComponentActivity() {
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         2f
                     )
-                    when (playerPosition){
-                        "Мр" -> player_icon.setImageResource(R.drawable.peacful_icon)
-                        "Мн" -> player_icon.setImageResource(R.drawable.maniac_icon)
-                        "Шф" -> player_icon.setImageResource(R.drawable.sheriff_icon)
-                        "Кр" -> player_icon.setImageResource(R.drawable.gorgeous_icon)
-                        "Дк" -> player_icon.setImageResource(R.drawable.doctor_icon)
-                        "Мф" -> player_icon.setImageResource(R.drawable.mafia_icon)
-                        "Дн" -> player_icon.setImageResource(R.drawable.don_icon)
+                    when (playerName){
+                        "Мирный" -> player_icon.setImageResource(R.drawable.peacful_icon)
+                        "Маньяк" -> player_icon.setImageResource(R.drawable.maniac_icon)
+                        "Шериф" -> player_icon.setImageResource(R.drawable.sheriff_icon)
+                        "Красотка" -> player_icon.setImageResource(R.drawable.gorgeous_icon)
+                        "Доктор" -> player_icon.setImageResource(R.drawable.doctor_icon)
+                        "Мафия" -> player_icon.setImageResource(R.drawable.mafia_icon)
+                        "Дон" -> player_icon.setImageResource(R.drawable.don_icon)
                         else -> player_icon.setImageResource(R.drawable.peacful_icon)
                     }
                     player_icon.foregroundGravity = Gravity.CENTER
@@ -1741,34 +1755,24 @@ class MainActivity : ComponentActivity() {
                         14f
                     )
                     playerNameTextView.setPadding(70, 10, 0, 10)
-                    playerNameTextView.text = playerName
+                    when (this.archive_of_night_results[playerName]) {
+                        null -> playerNameTextView.text =
+                            playerName + " ".repeat(max_simv - playerName.length + 2)
+                        else -> playerNameTextView.text =
+                            playerName + " ".repeat(max_simv - playerName.length + 2) + this.archive_of_night_results[playerName]
+                    }
                     linearLayout.addView(playerNameTextView)
-
-
-                    // Player Position TextView
-                    val playerPositionTextView = TextView(context)
-                    playerPositionTextView.setTextSize(15f)
-                    playerPositionTextView.layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        2f
-                    )
-                    playerPositionTextView.text = playerPosition
-                    linearLayout.addView(playerPositionTextView)
 
                     parentView.addView(linearLayout)
                 }
 
                 var layout = findViewById<LinearLayout>(R.id.show_layout_players_lst_screen)
+                val max_simv = max(this.queue_of_nigth.map { it.length })
+
+
+                // Добавление ролей
                 for (i in 0..this.queue_of_nigth.size-1) {
-                    when (this.queue_of_nigth[i]){
-                        "Маньяк" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Мн", layout)
-                        "Шериф" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Шф", layout)
-                        "Красотка" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Кр", layout)
-                        "Доктор" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Дк", layout)
-                        "Мафия" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Мф", layout)
-                        "Дон" -> createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], "Дн", layout)
-                    }
+                    createPlayerListItem(this, (i+1).toString(), this.queue_of_nigth[i], max_simv, layout)
                 }
 
                 val return_btn = findViewById<Button>(R.id.check_roles_btn_players_lst)
@@ -1806,6 +1810,8 @@ class MainActivity : ComponentActivity() {
 
 
     fun next_day(){
+        for (role in this.queue_of_nigth) if (this.night_result[role] != null) this.archive_of_night_results[role] += "${this.night_result[role]}  ".replace("-1", " ")
+
         for (i in 0..this.players_data.size-1) this.players_data[i].voices = 0
         this.current_player = this.players_data.size
         this.killing_lst = mutableListOf()
@@ -1823,14 +1829,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        for (el in this.killing_lst) this.players_data[el-1].is_alive = false
         this.alive_lst = mutableListOf()
         for ((i, el) in this.players_data.withIndex()) if (el.is_alive == true) this.alive_lst.add(i)
         for (i in 0..this.night-1) {
             this.alive_lst.add(this.alive_lst[0])
             this.alive_lst.removeAt(0)
         }
-        println(this.alive_lst)
-        for (el in this.killing_lst) this.players_data[el-1].is_alive = false
         make_vote_screen()
         val exit_btn = findViewById<Button>(R.id.end_the_game_in_the_start_btn)
         exit_btn.setOnClickListener(OnClickListener { pre_end_the_game_in_start()
@@ -2036,8 +2041,7 @@ class MainActivity : ComponentActivity() {
         val stop = this.timer_to_say
         fun next_player(){val ind = this.killing_lst.indexOf(this.current_player+1)
             if (ind == this.killing_lst.size-1) {
-                this.current_player = 0
-                while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
+                this.current_player = this.alive_lst[0]
                 make_vote_screen()
                 inizializate_voting()
             }
@@ -2070,8 +2074,7 @@ class MainActivity : ComponentActivity() {
                         }
                         val ind = this.killing_lst.indexOf(this.current_player+1)
                         if (ind == this.killing_lst.size-1) {
-                            this.current_player = 0
-                            while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
+                            this.current_player = this.alive_lst[0]
                             make_vote_screen()
                             inizializate_voting()
                         }
@@ -2730,15 +2733,16 @@ class MainActivity : ComponentActivity() {
                     else result.text = result.text.toString() + this.players_data[ii].extras.toString()
                     result.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
                     createPlayerListItem(this, ii+1, el.name, el.role, layout, el.is_alive, ii == this.current_player, el.extras, el.Fols)
-                    layout.getChildAt(layout.childCount-1).setOnClickListener(View.OnClickListener { create_player_settings(this, ii+1, el.name, result, OnClickListener {save_res(result, number)}) })
+                    if (this.players_data[ii].is_alive == true) layout.getChildAt(layout.childCount-1).setOnClickListener(View.OnClickListener { create_player_settings(this, ii+1, el.name, result, OnClickListener {save_res(result, ii)}) })
                 }
             }
 
             createPlayerListItem(this, i+1, el.name, el.role, layout, el.is_alive, i == this.current_player, el.extras, el.Fols)
-            layout.getChildAt(layout.childCount-1).setOnClickListener(View.OnClickListener { create_player_settings(this, i+1, el.name, result, OnClickListener {save_res(result, i)}) })
+            if (this.players_data[i].is_alive == true) layout.getChildAt(layout.childCount-1).setOnClickListener(View.OnClickListener { create_player_settings(this, i+1, el.name, result, OnClickListener {save_res(result, i)}) })
         }
     }
     fun before_voting(){
+        this.voting_result = mutableMapOf()
         this.voting_candidates = mutableListOf()
         for (el in this.players_data) if (el.voices != 0 && el.voices in this.voting_candidates == false) this.voting_candidates.add(el.voices)
 
@@ -3613,6 +3617,7 @@ class MainActivity : ComponentActivity() {
         this.current_player += 1
         var alive_size = 0
         for (el in this.players_data) if (el.is_alive == true) alive_size += 1
+        for (el in this.voting_result.keys) alive_size -= this.voting_result[el]!!
         this.voting_result[this.current_player] = 0
 
 
@@ -3677,7 +3682,7 @@ class MainActivity : ComponentActivity() {
                     }
                     MotionEvent.ACTION_UP -> {
                         if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                            if (this.players_data[ind-1].is_alive == true) {
+                            if (ind <= alive_size) {
                                 if (this.voting_result[this.current_player] != 0) this.choizen_btn.setTextColor(getColor(R.color.white))
                                 this.voting_result[this.current_player] = ind
                                 textview2_tx.text = ind.toString()
@@ -3853,7 +3858,15 @@ class MainActivity : ComponentActivity() {
                 if ((next_btn.width > event.getX() && event.getX() > 0) && (next_btn.height > event.getY() && event.getY() > 0)){
                     var ind = this.voting_candidates.indexOf(this.current_player)
 
-                    if (ind+1 < this.voting_candidates.size){
+                    if (ind+2 == this.voting_candidates.size) {
+                        this.current_player = this.voting_candidates[ind+1]
+                        alive_size = 0
+                        for (el in this.players_data) if (el.is_alive == true) alive_size += 1
+                        for (el in this.voting_result.keys) alive_size -= this.voting_result[el]!!
+                        this.voting_result[this.current_player] = alive_size
+                    }
+
+                    if (ind+2 < this.voting_candidates.size){
                         this.current_player = this.voting_candidates[ind+1]
                         vote()
                     } else {
@@ -3886,7 +3899,15 @@ class MainActivity : ComponentActivity() {
                             findViewById<LinearLayout>(R.id.lst_players_layout_vote_scren).removeView(res)
                             findViewById<TextView>(R.id.text_lb_next_vote_screen).text = "Закончить день"
                             this.players_data[who[0]-1].is_alive = false
-                            this.killing_lst = who
+                            this.killing_lst = mutableListOf(who[0])
+                            this.current_player = who[0]-1
+
+                            this.alive_lst = mutableListOf()
+                            for ((i, el) in this.players_data.withIndex()) if (el.is_alive == true) this.alive_lst.add(i)
+                            for (i in 0..this.night-1) {
+                                this.alive_lst.add(this.alive_lst[0])
+                                this.alive_lst.removeAt(0)
+                            }
 
                             next_btn.setOnTouchListener { _, event -> when(event.actionMasked){
                                 MotionEvent.ACTION_DOWN -> {
@@ -3896,11 +3917,7 @@ class MainActivity : ComponentActivity() {
                                 MotionEvent.ACTION_UP -> {
                                     next_btn.setImageResource(R.drawable.start)
                                     if ((next_btn.width > event.getX() && event.getX() > 0) && (next_btn.height > event.getY() && event.getY() > 0)){
-                                        this.current_player = 15
                                         setContentView(R.layout.vote_screen)
-                                        this.voting_candidates.forEach { it-1 }
-                                        this.killing_lst = this.voting_candidates
-                                        this.current_player = this.voting_candidates[0]
                                         make_vote_screen()
                                         inizializate_voting_for_dead_voting_and_popil()
                                     }
@@ -3922,9 +3939,11 @@ class MainActivity : ComponentActivity() {
         var maniac_team = 0
 
         for (el in this.players_data) {
-            if (el.role in listOf("Мирный", "Шериф", "Красотка", "Доктор")) red_team += 1
-            else if (el.role in listOf("Мафия", "Дон")) black_team += 1
-            else if (el.role == "Маньяк") maniac_team += 1
+            if (el.is_alive == true){
+                if (el.role in listOf("Мирный", "Шериф", "Красотка", "Доктор")) red_team += 1
+                else if (el.role in listOf("Мафия", "Дон")) black_team += 1
+                else if (el.role == "Маньяк") maniac_team += 1
+            }
         }
 
         if (red_team != 0 && black_team == 0 && maniac_team == 0) return "red"
@@ -3935,6 +3954,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun before_popil(){
+        this.voting_result = mutableMapOf()
         setContentView(R.layout.show_night_screen)
         findViewById<TextView>(R.id.what_day_lb).text = "Попил"
         findViewById<TextView>(R.id.text_lb_night_screen).text = "Начать"
@@ -3965,6 +3985,7 @@ class MainActivity : ComponentActivity() {
         this.current_player += 1
         var alive_size = 0
         for (el in this.players_data) if (el.is_alive == true) alive_size += 1
+        for (el in this.voting_result.keys) alive_size -= this.voting_result[el]!!
         this.voting_result[this.current_player] = 0
 
 
@@ -4029,7 +4050,7 @@ class MainActivity : ComponentActivity() {
                     }
                     MotionEvent.ACTION_UP -> {
                         if ((btn.width > motionEvent.getX() && motionEvent.getX() > 0) && (btn.height > motionEvent.getY() && motionEvent.getY() > 0)) {
-                            if (this.players_data[ind-1].is_alive == true) {
+                            if (ind <= alive_size) {
                                 if (this.voting_result[this.current_player] != 0) this.choizen_btn.setTextColor(getColor(R.color.white))
                                 this.voting_result[this.current_player] = ind
                                 textview2_tx.text = ind.toString()
@@ -4205,7 +4226,15 @@ class MainActivity : ComponentActivity() {
                 if ((next_btn.width > event.getX() && event.getX() > 0) && (next_btn.height > event.getY() && event.getY() > 0)){
                     var ind = this.voting_candidates.indexOf(this.current_player)
 
-                    if (ind+1 < this.voting_candidates.size){
+                    if (ind+2 == this.voting_candidates.size){
+                        this.current_player = this.voting_candidates[ind+1]
+                        alive_size = 0
+                        for (el in this.players_data) if (el.is_alive == true) alive_size += 1
+                        for (el in this.voting_result.keys) alive_size -= this.voting_result[el]!!
+                        this.voting_result[this.current_player] = alive_size
+                    }
+
+                    if (ind+2 < this.voting_candidates.size){
                         this.current_player = this.voting_candidates[ind+1]
                         popil()
                     } else {
@@ -4271,6 +4300,18 @@ class MainActivity : ComponentActivity() {
                                 tx.setTextColor(getColor(R.color.white))
                                 lt.addView(tx, 1)
 
+                                this.voting_candidates.forEach { it-1 }
+                                this.voting_candidates.sort()
+                                this.killing_lst = this.voting_candidates
+                                this.current_player = this.voting_candidates[0]-1
+
+                                this.alive_lst = mutableListOf()
+                                for ((i, el) in this.players_data.withIndex()) if (el.is_alive == true) this.alive_lst.add(i)
+                                for (i in 0..this.night-1) {
+                                    this.alive_lst.add(this.alive_lst[0])
+                                    this.alive_lst.removeAt(0)
+                                }
+
                                 findViewById<ImageButton>(R.id.start_next_btn_vote_screen).setOnTouchListener(
                                     OnTouchListener { _, event -> when(event.actionMasked){
                                         MotionEvent.ACTION_DOWN -> {
@@ -4280,9 +4321,6 @@ class MainActivity : ComponentActivity() {
                                         MotionEvent.ACTION_UP -> {
                                             findViewById<ImageButton>(R.id.start_next_btn_vote_screen).setImageResource(R.drawable.start)
                                             if ((findViewById<ImageButton>(R.id.start_next_btn_vote_screen).width > event.getX() && event.getX() > 0) && (findViewById<ImageButton>(R.id.start_next_btn_vote_screen).height > event.getY() && event.getY() > 0)){
-                                                this.voting_candidates.forEach { it-1 }
-                                                this.killing_lst = this.voting_candidates
-                                                this.current_player = this.voting_candidates[0]
                                                 make_vote_screen()
                                                 inizializate_voting_for_dead_voting_and_popil()
                                             }
@@ -4401,8 +4439,8 @@ class MainActivity : ComponentActivity() {
         val stop = this.timer_to_say
         fun next_player(){val ind = this.killing_lst.indexOf(this.current_player+1)
             if (ind == this.killing_lst.size-1) {
-                this.current_player = 0
-                while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
+                this.current_player = this.players_data.size
+                make_vote_screen()
                 end_the_day()
             }
             else{
@@ -4434,8 +4472,8 @@ class MainActivity : ComponentActivity() {
                         }
                         val ind = this.killing_lst.indexOf(this.current_player+1)
                         if (ind == this.killing_lst.size-1) {
-                            this.current_player = 0
-                            while (this.current_player < this.players_data.size && this.players_data[this.current_player].is_alive == false) this.current_player += 1
+                            this.current_player = this.players_data.size
+                            make_vote_screen()
                             end_the_day()
                         }
                         else{
@@ -4463,7 +4501,8 @@ class MainActivity : ComponentActivity() {
                             View.OnClickListener { this.i = 0
                                 pre_end_the_game_in_start()
                                 val back_btn = findViewById<Button>(R.id.back_to_the_game_end_the_game_start)
-                                back_btn.setOnClickListener({end_the_day()})
+                                back_btn.setOnClickListener({make_vote_screen()
+                                    inizializate_voting()})
                                 if (is_paused == false){
                                     make_next_player_voice(this)
                                     handler.removeCallbacks(this)
@@ -4482,7 +4521,7 @@ class MainActivity : ComponentActivity() {
             pre_end_the_game_in_start()
             val back_btn = findViewById<Button>(R.id.back_to_the_game_end_the_game_start)
             back_btn.setOnClickListener({make_vote_screen()
-                inizializate_voting_for_dead_voting_and_popil()}) })
+                inizializate_voting_for_dead()}) })
 
         btn_next.setOnTouchListener(View.OnTouchListener { v, event -> when(event.actionMasked){
             MotionEvent.ACTION_DOWN -> {
