@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+    <LinearLayout
+        android:id="@+id/main_layout_lst_players"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name_room_lb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:layout_weight="0"
+            android:paddingLeft="50px"
+            android:textSize="75px"
+            android:paddingTop="90px"
+            android:textColor="@color/white"
+            android:text="Городскуая мафия\nЦарский стол" />
+
+        <TextView
+            android:id="@+id/time_room_lb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:paddingLeft="60px"
+            android:layout_weight="0"
+            android:textColor="@color/white"
+            android:textSize="50px"
+            android:paddingTop="30px"
+            android:paddingBottom="40px"
+            android:text="8 февраля 19:00 - 00:30" />
+
+
+        <TextView
+            android:id="@+id/background_line"
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:layout_weight="0"
+            android:background="@color/white"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/que_lb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
+            android:background="@drawable/rounded"
+            android:paddingLeft="40px"
+            android:paddingTop="10px"
+            android:paddingRight="40px"
+            android:paddingBottom="10px"
+            android:text="Рассадка"
+            android:textColor="@color/white"
+            android:textAlignment="gravity"
+            android:textSize="50px" />
+        <LinearLayout
+            android:id="@+id/main_main_layout_lst_players"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="15"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/player_1_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_1_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:textColor="@color/white"
+                            android:text="Игрок 1" />
+
+                        <Button
+                            android:id="@+id/player_1_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_2_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_2_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 2" />
+
+                        <Button
+                            android:id="@+id/player_2_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_3_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_3_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 3" />
+
+                        <Button
+                            android:id="@+id/player_3_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_4_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_4_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:textColor="@color/white"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 4" />
+
+                        <Button
+                            android:id="@+id/player_4_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_5_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_5_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:textColor="@color/white"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 5" />
+
+                        <Button
+                            android:id="@+id/player_5_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_6_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_6_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 6" />
+
+                        <Button
+                            android:id="@+id/player_6_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_7_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_7_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:textColor="@color/white"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 7" />
+
+                        <Button
+                            android:id="@+id/player_7_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_8_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_8_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:textColor="@color/white"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 8" />
+
+                        <Button
+                            android:id="@+id/player_8_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_9_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_9_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:textColor="@color/white"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 9" />
+
+                        <Button
+                            android:id="@+id/player_9_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_10_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_10_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10px"
+                            android:textColor="@color/white"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 10" />
+
+                        <Button
+                            android:id="@+id/player_10_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_11_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_11_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 11" />
+
+                        <Button
+                            android:id="@+id/player_11_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_12_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_12_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 12" />
+
+                        <Button
+                            android:id="@+id/player_12_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_13_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_13_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 13" />
+
+                        <Button
+                            android:id="@+id/player_13_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/player_14_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/lst_element"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10px">
+                        <TextView
+                            android:id="@+id/player_14_lb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:paddingTop="10px"
+                            android:paddingBottom="10px"
+                            android:paddingLeft="70px"
+                            android:text="Игрок 14" />
+
+                        <Button
+                            android:id="@+id/player_14_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:background="@drawable/btn_element"
+                            android:textColor="@color/lst_players_btn"
+                            android:text="X"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <ImageButton
+            android:background="@color/nothing"
+            android:id="@+id/start_game_inizial_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:layout_marginTop="30px"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20px"
+            android:src="@drawable/start" />
+
+    </LinearLayout>
+</FrameLayout>

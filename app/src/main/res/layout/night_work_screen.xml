@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="30px"
+    android:background="@drawable/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/main_layout_role_screen"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20px"
+            android:layout_weight="5"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/sound_btn_night_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:background="@color/nothing"
+                android:layout_weight="3"
+                android:src="@drawable/sound" />
+
+            <ImageButton
+                android:id="@+id/pause_btn_night_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="10px"
+                android:background="@color/nothing"
+                android:layout_weight="3"
+                android:src="@drawable/pause" />
+
+            <Button
+                android:id="@+id/check_roles_btn_night_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10px"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:layout_marginLeft="50px"
+                android:gravity="center"
+                android:background="@drawable/rounded"
+                android:text="Просмотреть роли" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/work_layout_night_work_screen"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginBottom="10px"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/who_playing_night_work"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="Ночное\nзнакомство"
+                android:textSize="5mm" />
+
+            <TextView
+                android:id="@+id/lb_timer_night_work"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:textSize="100sp"
+                android:textColor="@color/white"
+                android:text="0"
+                android:gravity="center"
+                android:background="@drawable/timer_background" />
+
+            <LinearLayout
+                android:layout_marginTop="10sp"
+                android:id="@+id/keyboard_layout_night_work"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:padding="20px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/next_btn_night_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10px"
+            android:layout_weight="10"
+            android:background="@color/nothing"
+            android:scaleType="fitCenter"
+            android:src="@drawable/start" />
+
+        <TextView
+            android:id="@+id/saying_textview_night_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40px"
+            android:layout_weight="1"
+            android:text="Завершить ночь" />
+    </LinearLayout>
+
+</LinearLayout>
