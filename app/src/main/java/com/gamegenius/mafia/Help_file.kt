@@ -1,5 +1,7 @@
 package com.gamegenius.mafia
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.widget.Button
 
 data class Help_file(var num:Int, var btn:Button?)
@@ -20,4 +22,5 @@ sealed class Card_kit{
         }
     }
 }
+
 
